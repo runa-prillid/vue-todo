@@ -6,10 +6,36 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Vue.jsでtodoリスト</title>
+	<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
+	<div id="app">
+		<h1>TODOリスト</h1>
+		<ul class="list">
+			<li class="list-item" v-for="(todo, index) in todos">
+				<h2 class="item-title">
+					<span class="item-label untouched">{{ todo.status }}</span>{{ todo.title }}
+					<button>[編集]</button>
+					<button @click="deleteTodo(index)">[削除]</button>
+				</h2>
+			</li>
+		</ul>
+		<!-- タスクを追加 -->
+		<div class="add">
+			<input type="text" v-model="newTodo.title" placeholder="タイトル">
+			<select name="" id="" v-model="newTodo.status">
+				<option v-for="itemStatus in itemStatuses" :value="itemStatus" :key="itemStatus">
+					{{ itemStatus }}
+				</option>
+			</select>
+			<button @click.prevent="addTodo()">タスクを追加</button>
+		</div>
 
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	<script src="js/main.js"></script>
 </body>
 
 </html>
