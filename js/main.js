@@ -25,14 +25,20 @@ var app = new Vue({
 			}
 		],
 	},
+	watch: {
+		todos: {
+			handler() {
+				localStorage.setItem('todos', JSON.stringify(this.todos)) || [];
+			},
+			deep: true
+		}
+	},
+	mounted() {
+		this.todos = JSON.parse(localStorage.getItem('todos'));
+	},
 	methods: {
 		addTodo() {
 			if (this.newTodo.title) {
-				// var item = {
-				// 	id: this.newTodo.id,
-				// 	status: this.newTodo.status,
-				// 	title: this.newTodo.title
-				// };
 				this.todos.push({ ...this.newTodo });	//スプレッド構文で新しいタスクを追加
 				this.newTodo.title = '';				//newTodoをリセットする
 				this.newTodo.status = '未着手';
