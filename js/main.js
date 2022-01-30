@@ -2,8 +2,14 @@ var app = new Vue({
 	el: '#app',
 	data: {
 		itemStatuses: ['未着手', '進行中', '完了'],
+		isShowEditForm: false,
 		newTodo: {
 			id: 4,
+			status: '未着手',
+			title: ''
+		},
+		editedTodo: {
+			id: 0,
 			status: '未着手',
 			title: ''
 		},
@@ -44,6 +50,16 @@ var app = new Vue({
 				this.newTodo.status = '未着手';
 				this.newTodo.id++;
 			}
+		},
+		editTodo(id) {
+			//id - 1 のオブジェクトが必ずしも配列のインデックスと合致するとは限らないことに注意(削除など)
+			this.editedTodo = { ...this.todos.find(todo => todo.id === id) };
+			this.isShowEditForm = true;
+		},
+		updateTodo() {
+			const index = this.todos.findIndex(todo => todo.id === this.editedTodo.id);
+			this.todos[index] = this.editedTodo; //これにスプレッド構文を使わなくてもいいのはなぜ？
+			this.isShowEditForm = false;
 		},
 		deleteTodo(index) {
 			if (confirm('本当に削除しますか？')) {

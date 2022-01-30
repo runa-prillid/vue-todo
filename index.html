@@ -16,11 +16,24 @@
 			<li class="list-item" v-for="(todo, index) in todos">
 				<h2 class="item-title">
 					<span class="item-label untouched">{{ todo.status }}</span>{{ todo.title }}
-					<button>[編集]</button>
+					<button @click="editTodo(todo.id)">[編集]</button>
 					<button @click="deleteTodo(index)">[削除]</button>
 				</h2>
 			</li>
 		</ul>
+
+		<!-- タスクを編集 -->
+		<div class="edit" v-show="isShowEditForm">
+			<input type="text" v-model="editedTodo.title" placeholder="タイトル">
+			<select name="" id="" v-model="editedTodo.status">
+				<option v-for="itemStatus in itemStatuses" :value="itemStatus" :key="itemStatus">
+					{{ itemStatus }}
+				</option>
+			</select>
+			<button @click="updateTodo">タスクを保存</button>
+			<button @click="isShowEditForm = false">キャンセル</button>
+		</div>
+
 		<!-- タスクを追加 -->
 		<div class="add">
 			<input type="text" v-model="newTodo.title" placeholder="タイトル">
@@ -31,6 +44,8 @@
 			</select>
 			<button @click.prevent="addTodo()">タスクを追加</button>
 		</div>
+
+
 
 	</div>
 
