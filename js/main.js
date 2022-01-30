@@ -66,5 +66,21 @@ var app = new Vue({
 				this.todos.splice(index, 1);
 			}
 		}
+	},
+	filters: {
+		stateColor(state) {
+			switch (state) {
+				case '未着手':
+					return 'untouched';
+					break;
+				case '進行中':
+					return 'ongoing';
+					break;
+				case '完了':
+					return 'completed';
+				default:
+					return '';
+			}
+		}
 	}
 })

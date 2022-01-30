@@ -15,7 +15,7 @@
 		<ul class="list">
 			<li class="list-item" v-for="(todo, index) in todos">
 				<h2 class="item-title">
-					<span class="item-label untouched">{{ todo.status }}</span>{{ todo.title }}
+					<span class="item-label" :class="todo.status | stateColor">{{ todo.status }}</span>{{ todo.title }}
 					<button @click="editTodo(todo.id)">[編集]</button>
 					<button @click="deleteTodo(index)">[削除]</button>
 				</h2>
