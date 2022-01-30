@@ -1,6 +1,24 @@
 var app = new Vue({
 	el: '#app',
+	filters: {
+		stateColor(state) {
+			switch (state) {
+				case '未着手':
+					return 'untouched';
+					break;
+				case '進行中':
+					return 'ongoing';
+					break;
+				case '完了':
+					return 'completed';
+				default:
+					return '';
+			}
+		}
+	},
 	data: {
+		itemFilters: ['全て表示', '未着手', '進行中', '完了'],
+		filterLabel: '全て表示',
 		itemStatuses: ['未着手', '進行中', '完了'],
 		isShowEditForm: false,
 		newTodo: {
@@ -31,6 +49,15 @@ var app = new Vue({
 			}
 		],
 	},
+	computed: {
+		filterdTodos() {
+			if (this.filterLabel === '全て表示') {
+				return this.todos;
+			} else {
+				return this.todos.filter(todo => todo.status === this.filterLabel);
+			}
+		}
+	},
 	watch: {
 		todos: {
 			handler() {
@@ -39,9 +66,9 @@ var app = new Vue({
 			deep: true
 		}
 	},
-	mounted() {
-		this.todos = JSON.parse(localStorage.getItem('todos'));
-	},
+	// mounted() {
+	// 	this.todos = JSON.parse(localStorage.getItem('todos'));
+	// },
 	methods: {
 		addTodo() {
 			if (this.newTodo.title) {
@@ -61,25 +88,10 @@ var app = new Vue({
 			this.todos[index] = this.editedTodo; //これにスプレッド構文を使わなくてもいいのはなぜ？
 			this.isShowEditForm = false;
 		},
-		deleteTodo(index) {
+		deleteTodo(id) {
+			const index = this.todos.findIndex(todo => todo.id === id);
 			if (confirm('本当に削除しますか？')) {
 				this.todos.splice(index, 1);
-			}
-		}
-	},
-	filters: {
-		stateColor(state) {
-			switch (state) {
-				case '未着手':
-					return 'untouched';
-					break;
-				case '進行中':
-					return 'ongoing';
-					break;
-				case '完了':
-					return 'completed';
-				default:
-					return '';
 			}
 		}
 	}

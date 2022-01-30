@@ -12,12 +12,23 @@
 <body>
 	<div id="app">
 		<h1>TODOリスト</h1>
+
+		<div class="wrap-filter">
+			<label for="filter">フィルター：</label>
+			<select v-model="filterLabel" id="filter">
+				<option v-for="itemFilter in itemFilters" :value="itemFilter" :key="itemFilter">
+					{{ itemFilter }}
+				</option>
+			</select>
+		</div>
+
 		<ul class="list">
-			<li class="list-item" v-for="(todo, index) in todos">
+			<li class="list-item" v-for="todo in filterdTodos" :key="todo.id">
 				<h2 class="item-title">
-					<span class="item-label" :class="todo.status | stateColor">{{ todo.status }}</span>{{ todo.title }}
+					<span class="item-label" :class="todo.status | stateColor">{{ todo.status }}</span>{{
+					todo.title }}
 					<button @click="editTodo(todo.id)">[編集]</button>
-					<button @click="deleteTodo(index)">[削除]</button>
+					<button @click="deleteTodo(todo.id)">[削除]</button>
 				</h2>
 			</li>
 		</ul>
